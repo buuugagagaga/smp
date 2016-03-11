@@ -21,7 +21,7 @@ if($month != "1"){
     $y = $year-1;
 }
 echo "<a href=\"index.php?month={$m}&year={$y}\"><<</a>";
-echo "${year} ".getdate(mktime(0,0,0,$month+1, 0,$year,-1))["month"];
+echo "${year} ".getdate(mktime(0,0,0,$month+1, 0,$year))["month"];
 if($month != "12"){
     $m=$month+1;
     $y = $year;
@@ -36,7 +36,7 @@ echo '<tr><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>
 for($i=0, $month_day=0; $i<5; $i++){
     echo "<tr>";
     for($j=0; $j<7; $j++){
-        $wday = (getdate(mktime(0,0,0,$month, $month_day,$year,-1))["wday"]);
+        $wday = (getdate(mktime(0,0,0,$month, $month_day,$year))["wday"]);
         if($j<$wday) {
             echo"<td></td>";
         }else{
