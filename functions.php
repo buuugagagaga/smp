@@ -1,6 +1,6 @@
 <?php // Example 26-1: functions.php
 
-$appname = "NoteS beta";
+$appname = "Doodle Deep &beta;";
 
 require_once "model/database.php";
 
