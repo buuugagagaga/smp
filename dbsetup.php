@@ -1,6 +1,5 @@
 <?php
 
-//todo: Перепроверить
 require_once("functions.php");
 
 if (count($database->get_tables()) == 0) {
@@ -49,6 +48,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ");
+
     $database->query("
 ALTER TABLE `notes`
   ADD PRIMARY KEY (`id`),

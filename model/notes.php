@@ -79,16 +79,15 @@ class Notes
         return false;
     }
 
-//todo: Добить эти два метода
     public static function getSharedNotes($userId){
         global $database;
         $ids = self::getSharedNotesIds($userId);
         $result = array();
         foreach($ids as $id){
-            echo $id["id"];
             $result[] = $database->selectRow("SELECT * FROM notes WHERE id = {?}",
                 array($id["id"]));
         }
+        return $result;
 
     }
     private static function getSharedNotesIds($userId){

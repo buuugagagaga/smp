@@ -30,7 +30,6 @@ $text = "Bla-bla-bla";
 //    echo "<hr>";
 //    $userId = Users::getUserId($email);
 //    $allNotes = Notes::getAllUserNotes($userId);
-//    echo $allNotes[1]["title"];
 //    foreach($allNotes as $note){
 //        echo "<span style='background-color: #".Notes::getNoteTypeColor($note["typeId"])."'>";
 //        echo $note["date"]." ".$note["title"].": ".$note["text"];
@@ -39,6 +38,8 @@ $text = "Bla-bla-bla";
 //    Notes::shareNote(20, 3);
 //    Notes::shareNote(21, 3);
 //    Notes::shareNote(22, 3);
+
+
     $sharedNotes = Notes::getSharedNotes(3);
     foreach($sharedNotes as $note){
         echo "<span style='background-color: #".Notes::getNoteTypeColor($note["typeId"])."'>";
