@@ -5,6 +5,8 @@ $appname = "Doodle Deep &beta;";
 require_once "model/database.php";
 
 $database = DataBase::getDB();
+if(session_status() != PHP_SESSION_ACTIVE)
+    session_start();
 
 function destroySession()
 {

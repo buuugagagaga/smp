@@ -1,8 +1,5 @@
-
-<?php
-require_once 'header.php';
-//if ($loggedin) echo " $email, you are logged in.";
-//else           echo ' please sign up and/or log in to join in.';
+<?
+require_once("functions.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,16 +17,16 @@ require_once 'header.php';
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">    
+    <div class="nav-wrapper container navbar fixed"><a id="logo-container" href="#" class="brand-logo">    
         <?php
             echo $appname;
         ?>
         </a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Get Started</a></li>
+        <li><a href="get-started.php">Get Started</a></li>
       </ul>
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Get Started</a></li>
+        <li><a href="get-started.php">Get Started</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -44,7 +41,7 @@ require_once 'header.php';
           <h5 class="header col s12 light">A new Google Keep <strike>clone</strike> analog made for free usage!</h5>
       </div>
       <div class="row center">
-        <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
+        <a href="get-started.php" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
       </div>
       <br><br>
 
