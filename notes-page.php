@@ -1,3 +1,6 @@
+<?php
+require_once ("model/notes.php");
+?>
 <!DOCTYPE html>
 <html lang="en" ng-app="noteApp">
     <head>
@@ -12,11 +15,11 @@
         <nav class="amber accent-4" role="navigation">
             <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo"><?php echo("Welcome, ".$_SESSION["UserEmail"]."!");?></a>
                 <ul class="right hide-on-med-and-down">
-                    <li><a href="#">Log out</a></li>
+                    <li><a href="logout.php">Log out</a></li>
                 </ul>
 
                 <ul id="nav-mobile" class="side-nav">
-                    <li><a href="#">Log out</a></li>
+                    <li><a href="logout.php">Log out</a></li>
                 </ul>
                 <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
             </div>
@@ -24,84 +27,34 @@
 
         <div class="container" id="container">
             <div class="section">
-                <?php
+                <div class="row"><!--Без этого div выстроятся в одну линию-->
+
+                    <?php
                     $notes = Notes::getAllUserNotes($_SESSION["UserId"]);
+                    foreach($notes as $note){
 
+                        if(strlen(trim($note["title"]))<33&&strlen(trim($note["text"]))<129)
+                            $m = 4;
+                        else if(strlen(trim($note["title"]))<65&&strlen(trim($note["text"]))<257)
+                                $m = 6;
+                             else if(strlen(trim($note["title"]))<65&&strlen(trim($note["text"]))<513)
+                                    $m = 8;
+                                 else $m = 12;
+                        $color = Notes::getNoteTypeColor($note["typeId"]);
+                        echo <<<EOL
+                    <div class="col s12 m$m">
+                        <div class="card $color">
+                            <div class="card-content white-text">
+                                <span class="card-title">${note["title"]}</span>
+                                <p>${note["text"]}</p>
+                            </div>
+                        </div>
+                    </div>
+
+EOL;
+
+                    }
                 ?>
-                <!--   Icon Section   -->
-                <div class="row">
-                    <div class="col s12 m4">
-                        <div class="card blue-grey darken-1">
-                            <div class="card-content white-text">
-                                <span class="card-title">Small note</span>
-                                <p>Hello world! I'm using Doodle Deep</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card blue-grey darken-1">
-                            <div class="card-content white-text">
-                                <span class="card-title">Small note</span>
-                                <p>Hello world! I'm using Doodle Deep</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card blue-grey darken-1">
-                            <div class="card-content white-text">
-                                <span class="card-title">Small note</span>
-                                <p>Hello world! I'm using Doodle Deep</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card blue-grey darken-1">
-                            <div class="card-content white-text">
-                                <span class="card-title">Small note</span>
-                                <p>Hello world! I'm using Doodle Deep</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12 m6">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                    <span class="card-title">Card Title</span>
-                                    <p>I am a very simple card. I am good at containing small bits of information.
-                                        I am convenient because I require little markup to use effectively.</p>
-                                </div>
-                                <div class="card-action">
-                                    <a href="#">This is a link</a>
-                                    <a href="#">This is a link</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card blue-grey darken-1">
-                            <div class="card-content white-text">
-                                <span class="card-title">Small note</span>
-                                <p>Hello world! I'm using Doodle Deep</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card blue-grey darken-1">
-                            <div class="card-content white-text">
-                                <span class="card-title">Small note</span>
-                                <p>Hello world! I'm using Doodle Deep</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col s12 m4">
-                        <div class="card blue-grey darken-1">
-                            <div class="card-content white-text">
-                                <span class="card-title">Small note</span>
-                                <p>Hello world! I'm using Doodle Deep</p>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>

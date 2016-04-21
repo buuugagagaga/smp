@@ -51,7 +51,7 @@ class Notes
     public static function getNoteTypeColor($noteTypeId)
     {
         global $database;
-        return $database->selectCell("SELECT color FROM note_types WHERE id = {?}", array($noteTypeId));
+        return $database->selectCell("SELECT name FROM note_types WHERE id = {?}", array($noteTypeId));
     }
 
     public static function shareNote($noteId, $recipientId)
