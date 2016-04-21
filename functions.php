@@ -27,4 +27,5 @@ function sanitizeString($var)
     return $database->real_escape_string($var);
 }
 
+
 ?>

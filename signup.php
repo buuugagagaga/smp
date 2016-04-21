@@ -9,8 +9,11 @@ require_once("model/notes.php");
             unset($email);
         } 
     }
-    if (isset($_POST['password'])) {
-        $password=$_POST['password']; 
+    if (isset($_POST['password']) && isset($_POST['password-check'])) {
+        $password=$_POST['password'];
+        $password_check = $_POST['password-check'];
+        if($password != $password_check)
+            exit(messageWrapper("Passwords are different! <a href='signup.html'>Try again</a>"));
         if ($password =='') { 
             unset($password);
         } 
@@ -18,29 +21,33 @@ require_once("model/notes.php");
 
 
     if (empty($email) or empty($password)) {
-        exit ("Fill all form fields!");
+        exit (messageWrapper("Fields are not filled! <a href='signup.html'>Try again</a>"));
     }
 
-$email = stripslashes($email);
-$email = htmlspecialchars($email);
-$password = stripslashes($password);
-$password = htmlspecialchars($password);
-
+$email = sanitizeString($email);
 $email = trim($email);
+
+$password = sanitizeString($password);
 $password = trim($password);
 
 if(!Users::isAlreadyRegistered($email))
     Users::createUser($email,$password);
-else exit("Email is already taken");
+else exit(messageWrapper("This email is already registered. Go <a href='signup.html'>back</a> or <a href='login.html'>try to log in</a> "));
 
-echo <<<EOL
+exit(messageWrapper("User $email has been registered. Now you can  <a href='login.html'>log in</a>"));
+
+
+
+function messageWrapper($message){
+
+    return <<<EOL
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title>
-    <?php echo $appname;?> - Sign Up
+    Sign Up Result
     </title>
 
   <!-- CSS  -->
@@ -57,9 +64,8 @@ echo <<<EOL
   </nav>
 
 <div style="margin-top: 100px; margin-bottom:100px" class="container">
-        <p class="flow-text">Your account $email has been created, now you can
-        <a href="login.html">log in</a>
-        !
+        <p class="flow-text">
+        $message
     </p>
 
 </div>
@@ -72,3 +78,5 @@ echo <<<EOL
   </body>
 </html>
 EOL;
+
+}

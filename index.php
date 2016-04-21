@@ -34,9 +34,8 @@ require_once("functions.php");
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
       <br><br>
-      <h1 class="header center orange-text">Welcome, my friend! I'm 
-     <?php echo $appname;?>
-          !</h1>
+        <h1 class="header center orange-text">Welcome, my friend!</h1>
+        <h1 class="header center teal-text">I'm <b><?php echo $appname;?></b>!</h1>
       <div class="row center">
           <h5 class="header col s12 light">A new Google Keep <strike>clone</strike> analog made for free usage!</h5>
       </div>
@@ -84,7 +83,7 @@ require_once("functions.php");
             <p class="light">        <?php
             echo $appname;
         ?>
-                is very simple! Even stupid code monkey can start using It in 5 seconds!!!</p>
+                is very simple! Even stupid <a href="https://www.youtube.com/watch?v=qYodWEKCuGg">code monkey</a> can start using It in 5 seconds!!!</p>
           </div>
         </div>
       </div>
