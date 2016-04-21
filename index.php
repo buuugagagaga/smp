@@ -16,7 +16,7 @@ require_once("functions.php");
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
+  <nav class="teal lighten-1" role="navigation">
     <div class="nav-wrapper container navbar fixed"><a id="logo-container" href="#" class="brand-logo">    
         <?php
             echo $appname;

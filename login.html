@@ -13,7 +13,7 @@
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-  <nav class="light-blue lighten-1" role="navigation">
+  <nav class="teal" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">    
         Login
         </a>
@@ -26,16 +26,16 @@
         !
     </p>
         <div class="row">
-    <form class="col s12">
+    <form class="col s12" action="login.php" method="post">
       <div class="row">
         <div class="input-field col s12">
-          <input id="email" type="email" class="validate">
+          <input id="email" name="email" type="email" class="validate" required>
           <label for="email">Email</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <input id="password" type="password" class="validate">
+          <input id="password" name="password" type="password" required>
           <label for="password">Password</label>
         </div>
       </div>
