@@ -44,7 +44,7 @@ class Notes
     public static function getAllUserNotes($userId)
     {
         global $database;
-        $result = $database->select("SELECT * FROM notes WHERE userId = {?}", array($userId));
+        $result = $database->select("SELECT * FROM notes WHERE userId = {?} ORDER BY id DESC", array($userId));
         return $result;
     }
 
