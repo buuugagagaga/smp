@@ -48,6 +48,13 @@ class Notes
         return $result;
     }
 
+    public static function getNoteById($noteId)
+    {
+        global $database;
+        $result = $database->select("SELECT * FROM notes WHERE id = {?}", array($noteId));
+        return $result;
+    }
+
     public static function getNoteTypeColor($noteTypeId)
     {
         global $database;

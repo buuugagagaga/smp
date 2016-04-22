@@ -1,6 +1,6 @@
 <?php
 
-require_once("functions.php");
+require_once("../functions.php");
 
 if (count($database->get_tables()) == 0) {
     $database->query("

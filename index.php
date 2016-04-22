@@ -23,10 +23,10 @@ require_once("functions.php");
         ?>
         </a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="get-started.php">Get Started</a></li>
+        <li><a href="actions/get-started.php">Get Started</a></li>
       </ul>
       <ul id="nav-mobile" class="side-nav">
-        <li><a href="get-started.php">Get Started</a></li>
+        <li><a href="actions/get-started.php">Get Started</a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
@@ -40,7 +40,7 @@ require_once("functions.php");
           <h5 class="header col s12 light">A new Google Keep <strike>clone</strike> analog made for free usage!</h5>
       </div>
       <div class="row center">
-        <a href="get-started.php" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
+        <a href="actions/get-started.php" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>
       </div>
       <br><br>
 

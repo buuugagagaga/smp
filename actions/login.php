@@ -1,7 +1,7 @@
 <?php
-require_once("functions.php");
-require_once("model/users.php");
-require_once("model/notes.php");
+require_once("../functions.php");
+require_once("../model/users.php");
+require_once("../model/notes.php");
 
 if(!isset($_SESSION["UserId"])){
     if (isset($_POST['email'])) {
@@ -18,7 +18,7 @@ if(!isset($_SESSION["UserId"])){
     }
     if (empty($email) or empty($password))
     {
-        exit (wrapMessage("Some fields are empty!<a href='login.html'> Try again</a>"));
+        exit (wrapMessage("Some fields are empty!<a href='../login.html'> Try again</a>",true));
     }
 
     $email = sanitizeString($email);
@@ -28,11 +28,11 @@ if(!isset($_SESSION["UserId"])){
 
     if (!Users::checkUserEmailAndPassword($email, $password))
     {
-        exit (wrapMessage("Incorrect email or password. <a href='login.html'>Try again</a>"));
+        exit (wrapMessage("Incorrect email or password. <a href='../login.html'>Try again</a>",true));
     }
     $_SESSION['UserId'] = Users::getUserId($email);
     $_SESSION['UserEmail'] = $email;
 }
-    require('notes-page.php');
-
+header("Location: ../notes-page.php");
+exit();
 ?>

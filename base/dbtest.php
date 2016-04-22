@@ -1,7 +1,7 @@
 <?php
-require_once("functions.php");
-require_once("model/users.php");
-require_once("model/notes.php");
+require_once("../functions.php");
+require_once("../model/users.php");
+require_once("../model/notes.php");
 echo "Database class test <br>";
 
 $email = "testUser";
