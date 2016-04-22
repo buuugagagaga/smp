@@ -18,7 +18,7 @@ if(!isset($_SESSION["UserId"])){
     }
     if (empty($email) or empty($password))
     {
-        exit (wrapMessage("Some fields are empty!<a href='../login.html'> Try again</a>"));
+        exit (wrapMessage("Some fields are empty!<a href='../login.html'> Try again</a>", true));
     }
 
     $email = sanitizeString($email);

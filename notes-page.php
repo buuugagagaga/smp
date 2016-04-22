@@ -48,8 +48,9 @@ require_once("functions.php");
                 <li><a href="javascript:openNewNoteModal()" class="white-text">New note</a></li>
                 <li><a href="actions/logout.php">Log out</a></li>
             </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="side-nav">
-                <li><a href="javascript:openNewNoteModal()" class="white-text">New note</a></li>
+                <li><a href="javascript:openNewNoteModal()">New note</a></li>
                 <li><a href="actions/logout.php">Log out</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
