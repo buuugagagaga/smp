@@ -33,6 +33,25 @@ class Notes
             array($noteId)
         );
     }
+    public static function restoreNote($noteId)
+    {
+        global $database;
+        $database->query("
+        UPDATE `notes` SET `deleted` = 0 WHERE `notes`.`id` = {?};
+        ",
+            array($noteId)
+        );
+    }
+    public static function clearDeletedNote($noteId)
+    {
+        global $database;
+        $database->query("
+        DELETE FROM `notes` WHERE `notes`.`id` = {?};
+        ",
+            array($noteId)
+        );
+    }
+
 
     public static function getRandomNoteTypeId()
     {

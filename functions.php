@@ -75,4 +75,10 @@ function wrapMessage($message, $isError)
 EOL;
 
 }
+
+function isLoggedIn(){
+    if(isset($_SESSION["UserId"]))
+        return true;
+    return false;
+}
 ?>

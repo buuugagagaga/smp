@@ -1,6 +1,9 @@
 <?php
 require_once("../functions.php");
 require_once("../model/notes.php");
+
+if(!isLoggedIn())
+    exit(wrapMessage("Access denied!", true));
 if(!isset($_POST["note-id"])||!isset($_POST["note-text"])||!isset($_POST["note-title"]))
     exit(wrapMessage("Something went wrong. <a href='../index.php'>Homepage</a>",true));
 

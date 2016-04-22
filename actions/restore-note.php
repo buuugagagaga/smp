@@ -6,6 +6,6 @@ if(!isLoggedIn())
     exit(wrapMessage("Access denied", true));
 if(!isset($_GET["note-id"]))
     exit(wrapMessage("Something went wrong. <a href='../index.php'>Homepage</a>",true));
-Notes::deleteNote($_GET["note-id"]);
+Notes::restoreNote($_GET["note-id"]);
 header("Location: ../notes-page.php");
 exit();
