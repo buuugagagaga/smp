@@ -11,5 +11,5 @@ if(!isset($_POST["user-id"])||!isset($_POST["note-text"])||!isset($_POST["note-t
     exit(wrapMessage("Something went wrong. <a href='../index.php'>Homepage</a>",true));
 
 Notes::createNote($_POST["note-title"], $_POST["note-text"], $_POST["user-id"]);
-header("Location: ../notes-page.php");
+header("Location: ../pages/notes-page.php");
 exit();

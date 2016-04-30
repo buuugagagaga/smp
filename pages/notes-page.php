@@ -1,23 +1,23 @@
 <?php
-require_once("model/notes.php");
-require_once("functions.php");
+require_once("../model/notes.php");
+require_once("../functions.php");
 ?>
 <!DOCTYPE html>
-<html lang="en" ng-app="noteApp">
+<html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
     <title>Your notes</title>
     <!-- CSS  -->
-    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 <!--  Scripts-->
 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="js/materialize.js"></script>
-<script src="js/init.js"></script>
+<script src="../js/materialize.js"></script>
+<script src="../js/init.js"></script>
 <script>
     $(document).ready(function () {
         $('.modal-trigger').leanModal();
@@ -44,14 +44,20 @@ require_once("functions.php");
     <nav class="amber accent-4" role="navigation">
         <div class="nav-wrapper container"><a id="logo-container" href="#"
                                               class="brand-logo center"><?php echo(substr($_SESSION["UserEmail"], 0, strpos($_SESSION["UserEmail"], "@")) . "(ID = ${_SESSION["UserId"]})"); ?></a>
+            <ul class="left hide-on-med-and-down">
+                <li><a href="archive-notes-page.php" class="white-text">Archive</a></li>
+                <li><a href="shared-notes-page.php" class="white-text">Shared</a></li>
+            </ul>
             <ul class="right hide-on-med-and-down">
                 <li><a href="javascript:openNewNoteModal()" class="white-text">New note</a></li>
-                <li><a href="actions/logout.php">Log out</a></li>
+                <li><a href="../actions/logout.php">Log out</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="side-nav">
+                <li><a href="archive-notes-page.php">Archive</a></li>
+                <li><a href="shared-notes-page.php">Shared</a></li>
                 <li><a href="javascript:openNewNoteModal()">New note</a></li>
-                <li><a href="actions/logout.php">Log out</a></li>
+                <li><a href="../actions/logout.php">Log out</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
         </div>
@@ -65,6 +71,8 @@ require_once("functions.php");
         <div class="row"><!--Без этого div выстроятся в одну линию-->
             <?php
             $notes = Notes::getAllUserNotes($_SESSION["UserId"]);
+            $rowLeft = 12;
+            echo '<div class="row">';
             foreach ($notes as $note) {
                 if ($note["deleted"] == 0) {
                     if (strlen(trim($note["title"])) < 33 && strlen(trim($note["text"])) < 129)
@@ -75,8 +83,15 @@ require_once("functions.php");
                         $m = 8;
                     else $m = 12;
                     $color = Notes::getNoteTypeColor($note["typeId"]);
+
+                    $rowLeft-=$m;
+                    if($rowLeft<0)
+                    {
+                        $rowLeft = 12-$m;
+                        echo '</div><div class="row">';
+                    }
                     echo <<<EOL
-                    <div class="col s12 m$m">
+                    <div class="col s12 m$m"">
                         <div class="card $color">
                             <div class="card-content white-text">
                                 <span id="title-${note["id"]}" class="card-title">${note["title"]}</span>
@@ -86,21 +101,17 @@ require_once("functions.php");
                             <div class="card-action">
                                 <a href="javascript:opedEditModal(${note['id']})" class="white-text">Edit</a>
                                 <a href="#" class="white-text">Share</a>
-
-
-                                <a href="actions/delete-note.php?note-id=${note['id']}" class="white-text">Archive</a>
-
-
+                                <a href="../actions/delete-note.php?note-id=${note['id']}" class="white-text">Archive</a>
                             </div>
                         </div>
                     </div>
-
 EOL;
                 }
             }
+            echo '</div>';
             foreach ($notes as $note) {
                 if ($note["deleted"] == 1) {
-                    if (strlen(trim($note["title"])) < 33 && strlen(trim($note["text"])) < 129)
+                    if (strlen(trim($note["title"])) < 33 && strlen(trim($note["text"])) < 100)
                         $m = 4;
                     else if (strlen(trim($note["title"])) < 65 && strlen(trim($note["text"])) < 257)
                         $m = 6;
@@ -117,8 +128,8 @@ EOL;
                                 <p id="text-${note["id"]}" >${note["text"]}</p>
                             </div>
                             <div class="card-action">
-                                <a href="actions/restore-note.php?note-id=${note['id']}" class="green-text">Restore</a>
-                                <a href="actions/clear-deleted-note.php?note-id=${note['id']}" class="red-text">Clear</a>
+                                <a href="../actions/restore-note.php?note-id=${note['id']}" class="green-text">Restore</a>
+                                <a href="../actions/clear-deleted-note.php?note-id=${note['id']}" class="red-text">Clear</a>
                             </div>
                         </div>
                     </div>
@@ -129,7 +140,7 @@ EOL;
 
             ?>
             <div id="editingModal" class="modal bottom-sheet">
-                <form method="post" id="${note['id']}" action="actions/change-note.php">
+                <form method="post" id="${note['id']}" action="../actions/change-note.php">
                     <div class="modal-content">
                         <h4>Editing note</h4>
                         <div class="input-field">
@@ -152,7 +163,7 @@ EOL;
             </div>
             <!-- ///////////////////////////////////////////////////////////////-->
             <div id="newNoteModal" class="modal bottom-sheet">
-                <form method="post" id="new-note-form" action="actions/create-note.php">
+                <form method="post" id="new-note-form" action="../actions/create-note.php">
                     <div class="modal-content">
                         <h4>Creating new note</h4>
                         <div class="input-field">

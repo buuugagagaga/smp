@@ -7,5 +7,5 @@ if(!isLoggedIn())
 if(!isset($_GET["note-id"]))
     exit(wrapMessage("Something went wrong. <a href='../index.php'>Homepage</a>",true));
 Notes::deleteNote($_GET["note-id"]);
-header("Location: ../notes-page.php");
+header("Location: ../pages/notes-page.php");
 exit();
