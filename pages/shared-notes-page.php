@@ -77,8 +77,8 @@ require_once("../functions.php");
                                 <p id="text-${note["id"]}" >${note["text"]}</p>
                             </div>
                             <div class="card-action">
-                                <a href="../actions/create-note.php" class="white-text large">CLIP TO MY NOTES</a>
-                                <a href="../actions/delete-note.php?note-id=${note['id']}" class="white-text">DISMISS</a>
+                                <a href="../actions/clip-inbox-note.php?note-id=${note['id']}" class="white-text large">CLIP TO MY NOTES</a>
+                                <a href="../actions/dismiss-inbox-note.php?note-id=${note['id']}&recipient-id=${_SESSION["UserId"]}" class="white-text">DISMISS</a>
                             </div>
                         </div>
                     </div>

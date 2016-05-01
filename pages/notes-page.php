@@ -183,7 +183,7 @@ EOL;
                         <h4>Select person to share your note with</h4>
                         <div class="input-field">
                             <i class="material-icons prefix">mode_edit</i>
-                            <input placeholder="PersonsId" id="recipientId" name="recipient-id" type="text"
+                            <input placeholder="ID of person" id="recipientId" name="recipient-id" type="text"
                                    class="validate">
                         </div>
                         <input type="hidden" id="noteId" name="note-id">
