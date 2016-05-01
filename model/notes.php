@@ -13,7 +13,6 @@ class Notes
             array($title, $text, $userId, self::getRandomNoteTypeId(), date("Y-m-d H:i:s"))
         );
     }
-
     public static function changeNote($noteId, $title, $text, $typeId)
     {
         global $database;
@@ -23,7 +22,6 @@ class Notes
             array($title, $text, $typeId, $noteId)
         );
     }
-
     public static function deleteNote($noteId)
     {
         global $database;
@@ -52,28 +50,24 @@ class Notes
         );
     }
 
-
     public static function getRandomNoteTypeId()
     {
         global $database;
         $types = $database->select("SELECT * FROM note_types");
         return $types[rand(0, count($types) - 1)]["id"];
     }
-
     public static function getAllUserNotes($userId)
     {
         global $database;
         $result = $database->select("SELECT * FROM notes WHERE userId = {?} ORDER BY id DESC", array($userId));
         return $result;
     }
-
     public static function getNoteById($noteId)
     {
         global $database;
         $result = $database->select("SELECT * FROM notes WHERE id = {?}", array($noteId));
         return $result;
     }
-
     public static function getNoteTypeColor($noteTypeId)
     {
         global $database;
@@ -86,15 +80,15 @@ class Notes
         $authorId = $database->selectCell("SELECT userId FROM notes WHERE id = {?}", array($noteId));
 
         if (!self::checkNoteAlreadyShared($noteId, $recipientId))
-            if ($recipientId != $authorId)
+            if ($recipientId != $authorId && Users::checkIdIsToken($recipientId))
                 $database->query(
                     "INSERT INTO `shared_notes` (`id`, `noteId`, `recipientId`) VALUES (NULL, {?}, {?})",
                     array($noteId, $recipientId)
                 );
             else return false;
+        return true;
     }
-
-    private static function checkNoteAlreadyShared($noteId, $recipientId)
+    public static function checkNoteAlreadyShared($noteId, $recipientId)
     {
         global $database;
         $sharedNoteId = $database->selectCell("SELECT id FROM shared_notes WHERE noteId = {?} AND recipientId = {?}",
@@ -104,22 +98,35 @@ class Notes
             return true;
         return false;
     }
-
     public static function getSharedNotes($userId){
         global $database;
         $ids = self::getSharedNotesIds($userId);
         $result = array();
         foreach($ids as $id){
             $result[] = $database->selectRow("SELECT * FROM notes WHERE id = {?}",
-                array($id["id"]));
+                array($id["noteId"]));
         }
         return $result;
 
     }
     private static function getSharedNotesIds($userId){
         global $database;
-        $result = $database->select("SELECT id FROM shared_notes WHERE recipientId = {?}",
+        $result = $database->select("SELECT noteId FROM shared_notes WHERE recipientId = {?}",
             array($userId));
         return $result;
+    }
+    public static function getRecipientsIds($noteId){
+        global $database;
+        $result = $database->select("SELECT recipientId FROM shared_notes WHERE noteId = {?}",
+            array($noteId));
+        return $result;
+    }
+    public static function dismissRecipient($noteId, $recipientId){
+        global $database;
+        $database->query("
+        DELETE FROM shared_notes WHERE noteId = {?} AND recipientId = {?};
+        ",
+            array($noteId, $recipientId)
+        );
     }
 }

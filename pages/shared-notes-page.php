@@ -1,5 +1,6 @@
 <?php
 require_once("../model/notes.php");
+require_once("../model/users.php");
 require_once("../functions.php");
 ?>
 <!DOCTYPE html>
@@ -7,7 +8,7 @@ require_once("../functions.php");
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <title>Archive</title>
+    <title>Inbox</title>
     <!-- CSS  -->
     <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
     <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -19,14 +20,13 @@ require_once("../functions.php");
 <script src="../js/materialize.js"></script>
 <script src="../js/init.js"></script>
 
-
 <div class="navbar-fixed">
     <nav class="amber accent-4" role="navigation">
         <div class="nav-wrapper container"><a id="logo-container" href="#"
                                               class="brand-logo center"><?php echo(substr($_SESSION["UserEmail"], 0, strpos($_SESSION["UserEmail"], "@")) . "(ID = ${_SESSION["UserId"]})"); ?></a>
             <ul class="left hide-on-med-and-down">
                 <li><a href="notes-page.php" class="white-text">Your notes</a></li>
-                <li><a href="shared-notes-page.php" class="white-text">Inbox</a></li>
+                <li><a href="archive-notes-page.php" class="white-text">Archive</a></li>
             </ul>
             <ul class="right hide-on-med-and-down">
                 <li><a href="../actions/logout.php">Log out</a></li>
@@ -34,7 +34,7 @@ require_once("../functions.php");
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="notes-page.php">Your notes</a></li>
-                <li><a href="shared-notes-page.php">Inbox</a></li>
+                <li><a href="archive-notes-page.php">Archive</a></li>
                 <li><a href="../actions/logout.php">Log out</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
@@ -48,11 +48,11 @@ require_once("../functions.php");
     <div class="section">
         <div class="row">
             <?php
-            $notes = Notes::getAllUserNotes($_SESSION["UserId"]);
+            $notes = Notes::getSharedNotes($_SESSION["UserId"]);
             $rowLeft = 12;
             echo '<div class="row">';
             foreach ($notes as $note) {
-                if ($note["deleted"] == 1) {
+                if ($note["deleted"] == 0) {
                     if (strlen(trim($note["title"])) < 33 && strlen(trim($note["text"])) < 129)
                         $m = 4;
                     else if (strlen(trim($note["title"])) < 65 && strlen(trim($note["text"])) < 257)
@@ -60,25 +60,25 @@ require_once("../functions.php");
                     else if (strlen(trim($note["title"])) < 65 && strlen(trim($note["text"])) < 513)
                         $m = 8;
                     else $m = 12;
-                    $color = "white";
+                    $color = Notes::getNoteTypeColor($note["typeId"]);
+                    $author = Users::getUserEmail($note["userId"]);
 
-                    $rowLeft-=$m;
-                    if($rowLeft<0)
-                    {
-                        $rowLeft = 12-$m;
+                    $rowLeft -= $m;
+                    if ($rowLeft < 0) {
+                        $rowLeft = 12 - $m;
                         echo '</div><div class="row">';
                     }
                     echo <<<EOL
-                    <div class="col s12 m$m">
+                    <div class="col s12 m$m"">
                         <div class="card $color">
-                            <div class="card-content grey-text">
+                            <div class="card-content white-text">
                                 <span id="title-${note["id"]}" class="card-title">${note["title"]}</span>
-                                <p>${note["date"]}</p>
+                                <p>FROM : $author</p>
                                 <p id="text-${note["id"]}" >${note["text"]}</p>
                             </div>
                             <div class="card-action">
-                                <a href="../actions/restore-note.php?note-id=${note['id']}" class="green-text">Restore</a>
-                                <a href="../actions/clear-deleted-note.php?note-id=${note['id']}" class="red-text">Clear</a>
+                                <a href="../actions/create-note.php" class="white-text large">CLIP TO MY NOTES</a>
+                                <a href="../actions/delete-note.php?note-id=${note['id']}" class="white-text">DISMISS</a>
                             </div>
                         </div>
                     </div>

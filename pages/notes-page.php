@@ -1,5 +1,6 @@
 <?php
 require_once("../model/notes.php");
+require_once("../model/users.php");
 require_once("../functions.php");
 ?>
 <!DOCTYPE html>
@@ -23,7 +24,6 @@ require_once("../functions.php");
         $('.modal-trigger').leanModal();
     });
     function opedEditModal(noteId) {
-        $('#editingModal').openModal();
         var title = document.getElementById("title-" + noteId).innerHTML;
         var text = document.getElementById("text-" + noteId).innerHTML;
 
@@ -32,11 +32,15 @@ require_once("../functions.php");
         $('#note-text').val(text);
         $('#note-text').trigger('autoresize');
 
+        $('#editingModal').openModal();
+
     }
     function openNewNoteModal() {
         $('#newNoteModal').openModal();
-        var text = document.getElementById("text-" + noteId).innerHTML;
-        $('#new-note-user-id').val($_SESSION["UserId"]);
+    }
+    function openShareModal(noteId) {
+        $('#noteId').val(noteId);
+        $('#shareNoteModal').openModal();
     }
 </script>
 
@@ -46,7 +50,7 @@ require_once("../functions.php");
                                               class="brand-logo center"><?php echo(substr($_SESSION["UserEmail"], 0, strpos($_SESSION["UserEmail"], "@")) . "(ID = ${_SESSION["UserId"]})"); ?></a>
             <ul class="left hide-on-med-and-down">
                 <li><a href="archive-notes-page.php" class="white-text">Archive</a></li>
-                <li><a href="shared-notes-page.php" class="white-text">Shared</a></li>
+                <li><a href="shared-notes-page.php" class="white-text">Inbox</a></li>
             </ul>
             <ul class="right hide-on-med-and-down">
                 <li><a href="javascript:openNewNoteModal()" class="white-text">New note</a></li>
@@ -55,7 +59,7 @@ require_once("../functions.php");
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="archive-notes-page.php">Archive</a></li>
-                <li><a href="shared-notes-page.php">Shared</a></li>
+                <li><a href="shared-notes-page.php">Inbox</a></li>
                 <li><a href="javascript:openNewNoteModal()">New note</a></li>
                 <li><a href="../actions/logout.php">Log out</a></li>
             </ul>
@@ -84,10 +88,9 @@ require_once("../functions.php");
                     else $m = 12;
                     $color = Notes::getNoteTypeColor($note["typeId"]);
 
-                    $rowLeft-=$m;
-                    if($rowLeft<0)
-                    {
-                        $rowLeft = 12-$m;
+                    $rowLeft -= $m;
+                    if ($rowLeft < 0) {
+                        $rowLeft = 12 - $m;
                         echo '</div><div class="row">';
                     }
                     echo <<<EOL
@@ -97,10 +100,28 @@ require_once("../functions.php");
                                 <span id="title-${note["id"]}" class="card-title">${note["title"]}</span>
                                 <p>${note["date"]}</p>
                                 <p id="text-${note["id"]}" >${note["text"]}</p>
+EOL;
+                    $recipients = Notes::getRecipientsIds($note["id"]);
+                    if (count($recipients) > 0) {
+                        echo '<br><br><p>Shared with';
+                        foreach ($recipients as $recipient) {
+                            $recipient_email = Users::getUserEmail($recipient["recipientId"]);
+                            echo <<<EOL
+                        <span class="chip">
+                            $recipient_email
+                            <a href="../actions/dismiss-note-share.php?note-id=${note["id"]}&recipient-id=${recipient["recipientId"]}">
+                                <i class="material-icons">close</i>
+                            </a>
+                        </span>
+EOL;
+                        }
+                        echo '</p>';
+                    }
+                    echo <<<EOL
                             </div>
                             <div class="card-action">
                                 <a href="javascript:opedEditModal(${note['id']})" class="white-text">Edit</a>
-                                <a href="#" class="white-text">Share</a>
+                                <a href="javascript:openShareModal(${note['id']})" class="white-text">Share</a>
                                 <a href="../actions/delete-note.php?note-id=${note['id']}" class="white-text">Archive</a>
                             </div>
                         </div>
@@ -109,35 +130,6 @@ EOL;
                 }
             }
             echo '</div>';
-            foreach ($notes as $note) {
-                if ($note["deleted"] == 1) {
-                    if (strlen(trim($note["title"])) < 33 && strlen(trim($note["text"])) < 100)
-                        $m = 4;
-                    else if (strlen(trim($note["title"])) < 65 && strlen(trim($note["text"])) < 257)
-                        $m = 6;
-                    else if (strlen(trim($note["title"])) < 65 && strlen(trim($note["text"])) < 513)
-                        $m = 8;
-                    else $m = 12;
-                    $color = "white";
-                    echo <<<EOL
-                    <div class="col s12 m$m">
-                        <div class="card $color">
-                            <div class="card-content grey-text">
-                                <span id="title-${note["id"]}" class="card-title">${note["title"]}</span>
-                                <p>${note["date"]}</p>
-                                <p id="text-${note["id"]}" >${note["text"]}</p>
-                            </div>
-                            <div class="card-action">
-                                <a href="../actions/restore-note.php?note-id=${note['id']}" class="green-text">Restore</a>
-                                <a href="../actions/clear-deleted-note.php?note-id=${note['id']}" class="red-text">Clear</a>
-                            </div>
-                        </div>
-                    </div>
-
-EOL;
-                }
-            }
-
             ?>
             <div id="editingModal" class="modal bottom-sheet">
                 <form method="post" id="${note['id']}" action="../actions/change-note.php">
@@ -159,7 +151,6 @@ EOL;
                         <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat right">Cancel</a>
                     </div>
                 </form>
-
             </div>
             <!-- ///////////////////////////////////////////////////////////////-->
             <div id="newNoteModal" class="modal bottom-sheet">
@@ -184,7 +175,25 @@ EOL;
                         <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat right">Cancel</a>
                     </div>
                 </form>
-
+            </div>
+            <!-- ///////////////////////////////////////////////////////////////-->
+            <div id="shareNoteModal" class="modal bottom-sheet">
+                <form method="post" id="new-note-form" action="../actions/share-note.php">
+                    <div class="modal-content">
+                        <h4>Select person to share your note with</h4>
+                        <div class="input-field">
+                            <i class="material-icons prefix">mode_edit</i>
+                            <input placeholder="PersonsId" id="recipientId" name="recipient-id" type="text"
+                                   class="validate">
+                        </div>
+                        <input type="hidden" id="noteId" name="note-id">
+                    </div>
+                    <div class="modal-footer">
+                        <input class="modal-action modal-close waves-effect waves-green btn-flat" type="submit"
+                               value="Share">
+                        <a href="#!" class=" modal-action modal-close waves-effect waves-red btn-flat right">Cancel</a>
+                    </div>
+                </form>
             </div>
 
         </div>

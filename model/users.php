@@ -30,6 +30,14 @@ class Users
             return true;
         return false;
     }
+    public static function checkIdIsToken($id)
+    {
+        global $database;
+        $user = $database->selectRow("SELECT * FROM `users` WHERE `id` = {?}", array($id));
+        if ($user["id"] == $id)
+            return true;
+        return false;
+    }
 
     public static function checkUserEmailAndPassword($email, $password)
     {
@@ -48,6 +56,13 @@ class Users
             return $database->selectCell("SELECT id FROM users WHERE email={?};", array($email));
         }
         return false;
+    }
+
+    public static function getUserEmail($id)
+    {
+        global $database;
+
+        return $database->selectCell("SELECT email FROM users WHERE id={?};", array($id));
     }
 
     private static function checkUserPassword($email, $password)
