@@ -39,8 +39,12 @@ require_once("../functions.php");
         $('#newNoteModal').openModal();
     }
     function openShareModal(noteId) {
-        $('#noteId').val(noteId);
+        $('#share-note-id').val(noteId);
         $('#shareNoteModal').openModal();
+    }
+    function openColorModal(noteId) {
+        $('#pick-color-note-id').val(noteId);
+        $('#pickColorModal').openModal();
     }
 </script>
 
@@ -53,14 +57,12 @@ require_once("../functions.php");
                 <li><a href="shared-notes-page.php" class="white-text">Inbox</a></li>
             </ul>
             <ul class="right hide-on-med-and-down">
-                <li><a href="javascript:openNewNoteModal()" class="white-text">New note</a></li>
                 <li><a href="../actions/logout.php">Log out</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul id="nav-mobile" class="side-nav">
                 <li><a href="archive-notes-page.php">Archive</a></li>
                 <li><a href="shared-notes-page.php">Inbox</a></li>
-                <li><a href="javascript:openNewNoteModal()">New note</a></li>
                 <li><a href="../actions/logout.php">Log out</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
@@ -68,9 +70,8 @@ require_once("../functions.php");
     </nav>
 
 </div>
-
+<!--<a style="margin-left: 10px" class="btn-large datepicker"><i class="material-icons left">view_module</i>Notes by date</a>-->
 <div class="container" id="container">
-
     <div class="section">
         <div class="row"><!--Без этого div выстроятся в одну линию-->
             <?php
@@ -120,16 +121,26 @@ EOL;
                     echo <<<EOL
                             </div>
                             <div class="card-action">
+
+
+
                                 <a href="javascript:opedEditModal(${note['id']})" class="white-text">Edit</a>
                                 <a href="javascript:openShareModal(${note['id']})" class="white-text">Share</a>
                                 <a href="../actions/delete-note.php?note-id=${note['id']}" class="white-text">Archive</a>
+                                <a href="javascript:openColorModal(${note['id']})" class="white-text">Color</a>
                             </div>
                         </div>
                     </div>
 EOL;
                 }
             }
-            echo '</div>';
+            echo '</div>
+              <div class="fixed-action-btn horizontal" style="bottom: 45px; right: 24px;">
+                <a href="javascript:openNewNoteModal()" class="btn-floating btn-large red">
+                  <i class="large material-icons">add</i>
+                </a>
+              </div>
+';
             ?>
             <div id="editingModal" class="modal bottom-sheet">
                 <form method="post" id="${note['id']}" action="../actions/change-note.php">
@@ -186,7 +197,7 @@ EOL;
                             <input placeholder="ID of person" id="recipientId" name="recipient-id" type="text"
                                    class="validate">
                         </div>
-                        <input type="hidden" id="noteId" name="note-id">
+                        <input type="hidden" id="share-note-id" name="note-id">
                     </div>
                     <div class="modal-footer">
                         <input class="modal-action modal-close waves-effect waves-green btn-flat" type="submit"
@@ -195,6 +206,27 @@ EOL;
                     </div>
                 </form>
             </div>
+            <!-- ///////////////////////////////////////////////////////////////-->
+            <div id="pickColorModal" class="modal bottom-sheet">
+                <form action="../actions/change-color.php" method="post">
+                    <div class="modal-content">
+                        <h4>Pick new color</h4>
+                            <?php
+                            echo <<<EOL
+                            <input type="hidden" id="pick-color-note-id" name="note-id">
+EOL;
+                                $colors = Notes::getAllNoteTypes();
+                                foreach($colors as $color){
+                                    echo <<<EOL
+                                <input type="submit" class="card btn-large circle ${color["name"]}" style="text-indent:-9999px;" name="color" value="${color["id"]}"></button>
+EOL;
+                                }
+                            ?>
+
+                    </div>
+                </form>
+            </div>
+
 
         </div>
     </div>

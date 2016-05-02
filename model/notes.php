@@ -56,6 +56,11 @@ class Notes
         $types = $database->select("SELECT * FROM note_types");
         return $types[rand(0, count($types) - 1)]["id"];
     }
+    public static function getAllNoteTypes()
+    {
+        global $database;
+        return $database->select("SELECT * FROM note_types");
+    }
     public static function getAllUserNotes($userId)
     {
         global $database;
