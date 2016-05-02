@@ -110,14 +110,13 @@ require_once("functions.php");
           <h5 class="white-text">Links</h5>
           <ul>
             <li><a class="white-text" href="http://samantsov.kh.ua/smr/index.html">Labs website</a></li>
-            <li><a class="white-text" href="https://github.com/buuugagagaga/smp">Git</a></li>
           </ul>
         </div>
       </div>
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Made by <a class="orange-text text-lighten-3" href="https://vk.com/danielslupskiy">Daniel Slupskiy. </a>Don't even try to steal my work, I will kill you!!! 
+      Made by <a class="orange-text text-lighten-3" href="https://vk.com/danielslupskiy">Daniel Slupskiy. </a>Don't even try to steal my work, I will kill you and your family!!!
       </div>
     </div>
   </footer>
