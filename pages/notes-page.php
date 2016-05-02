@@ -70,7 +70,6 @@ require_once("../functions.php");
     </nav>
 
 </div>
-<!--<a style="margin-left: 10px" class="btn-large datepicker"><i class="material-icons left">view_module</i>Notes by date</a>-->
 <div class="container" id="container">
     <div class="section">
         <div class="row"><!--Без этого div выстроятся в одну линию-->
@@ -124,7 +123,7 @@ EOL;
                     echo <<<EOL
                             </div>
                             <div class="card-action">
-                            <div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; right:5px;">
+                            <div class="fixed-action-btn horizontal" style="position: absolute; right:5px;">
                                 <a class="btn-flat btn-floating btn-large small $color">
                                   <i class="large material-icons">reorder</i>
                                 </a>
@@ -154,10 +153,11 @@ EOL;
                         <h4>Editing note</h4>
                         <div class="input-field">
                             <i class="material-icons prefix">mode_edit</i>
-                            <input placeholder="Title" id="note-title" name="note-title" type="text" class="validate">
+                            <input placeholder="Title" id="note-title" name="note-title" type="text" length="256"
+                                   class="validate">
                         </div>
                         <div class="input-field">
-                            <textarea id="note-text" name="note-text" class="materialize-textarea large"
+                            <textarea id="note-text" name="note-text" length="4096" class="materialize-textarea large"
                                       placeholder="Note text"></textarea>
                         </div>
                         <input type="hidden" id="note-id" name="note-id">
@@ -169,7 +169,6 @@ EOL;
                     </div>
                 </form>
             </div>
-            <!-- ///////////////////////////////////////////////////////////////-->
             <div id="newNoteModal" class="modal bottom-sheet">
                 <form method="post" id="new-note-form" action="../actions/create-note.php">
                     <div class="modal-content">
@@ -177,11 +176,11 @@ EOL;
                         <div class="input-field">
                             <i class="material-icons prefix">mode_edit</i>
                             <input placeholder="Title" id="new-note-title" name="note-title" type="text"
-                                   class="validate">
+                                   class="validate" length="256">
                         </div>
                         <div class="input-field">
                             <textarea id="new-note-text" name="note-text" class="materialize-textarea large"
-                                      placeholder="Note text"></textarea>
+                                      placeholder="Note text" length="4096"></textarea>
                         </div>
                         <input type="hidden" id="new-note-user-id" name="user-id"
                                value=<?php echo $_SESSION["UserId"]; ?>>
@@ -193,7 +192,6 @@ EOL;
                     </div>
                 </form>
             </div>
-            <!-- ///////////////////////////////////////////////////////////////-->
             <div id="shareNoteModal" class="modal bottom-sheet">
                 <form method="post" id="new-note-form" action="../actions/share-note.php">
                     <div class="modal-content">
@@ -212,22 +210,21 @@ EOL;
                     </div>
                 </form>
             </div>
-            <!-- ///////////////////////////////////////////////////////////////-->
             <div id="pickColorModal" class="modal bottom-sheet">
                 <form action="../actions/change-color.php" method="post">
                     <div class="modal-content">
                         <h4>Pick new color</h4>
-                            <?php
-                            echo <<<EOL
+                        <?php
+                        echo <<<EOL
                             <input type="hidden" id="pick-color-note-id" name="note-id">
 EOL;
-                                $colors = Notes::getAllNoteTypes();
-                                foreach($colors as $color){
-                                    echo <<<EOL
+                        $colors = Notes::getAllNoteTypes();
+                        foreach ($colors as $color) {
+                            echo <<<EOL
                                 <input type="submit" class="card btn-large circle ${color["name"]}" style="text-indent:-9999px;" name="color" value="${color["id"]}"></button>
 EOL;
-                                }
-                            ?>
+                        }
+                        ?>
 
                     </div>
                 </form>

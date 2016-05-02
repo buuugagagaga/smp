@@ -51,8 +51,10 @@ require_once("../functions.php");
             $notes = Notes::getAllUserNotes($_SESSION["UserId"]);
             $rowLeft = 12;
             echo '<div class="row">';
+            $hasDeletedNotes = false;
             foreach ($notes as $note) {
                 if ($note["deleted"] == 1) {
+                    $hasDeletedNotes = true;
                     if (strlen(trim($note["title"])) < 33 && strlen(trim($note["text"])) < 129)
                         $m = 4;
                     else if (strlen(trim($note["title"])) < 65 && strlen(trim($note["text"])) < 257)
@@ -62,10 +64,9 @@ require_once("../functions.php");
                     else $m = 12;
                     $color = "white";
 
-                    $rowLeft-=$m;
-                    if($rowLeft<0)
-                    {
-                        $rowLeft = 12-$m;
+                    $rowLeft -= $m;
+                    if ($rowLeft < 0) {
+                        $rowLeft = 12 - $m;
                         echo '</div><div class="row">';
                     }
                     echo <<<EOL
@@ -85,8 +86,17 @@ require_once("../functions.php");
 EOL;
                 }
             }
+            if ($hasDeletedNotes)
+                echo '</div>
+              <div class="fixed-action-btn horizontal" style="bottom: 45px; right: 24px;">
+                <a href="../actions/clear-archive.php" class="btn-floating btn-large red">
+                  <i class="large material-icons">clear_all</i>
+                </a>
+              </div>';
             echo '</div>';
             ?>
+
+
         </div>
     </div>
 </div>
