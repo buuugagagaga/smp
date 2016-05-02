@@ -96,11 +96,14 @@ require_once("../functions.php");
                     }
                     echo <<<EOL
                     <div class="col s12 m$m"">
+
                         <div class="card $color">
                             <div class="card-content white-text">
-                                <span id="title-${note["id"]}" class="card-title">${note["title"]}</span>
+                                                  <a href="javascript:opedEditModal(${note['id']})" class="white-text">
+                                <span id="title-${note["id"]}" class="card-title" >${note["title"]}</span>
                                 <p>${note["date"]}</p>
                                 <p id="text-${note["id"]}" >${note["text"]}</p>
+                                                            </a>
 EOL;
                     $recipients = Notes::getRecipientsIds($note["id"]);
                     if (count($recipients) > 0) {
@@ -108,7 +111,7 @@ EOL;
                         foreach ($recipients as $recipient) {
                             $recipient_email = Users::getUserEmail($recipient["recipientId"]);
                             echo <<<EOL
-                        <span class="chip">
+                        <span class="chip" style="margin:1px">
                             $recipient_email
                             <a href="../actions/dismiss-note-share.php?note-id=${note["id"]}&recipient-id=${recipient["recipientId"]}">
                                 <i class="material-icons">close</i>
@@ -124,10 +127,24 @@ EOL;
 
 
 
-                                <a href="javascript:opedEditModal(${note['id']})" class="white-text">Edit</a>
-                                <a href="javascript:openShareModal(${note['id']})" class="white-text">Share</a>
-                                <a href="../actions/delete-note.php?note-id=${note['id']}" class="white-text">Archive</a>
-                                <a href="javascript:openColorModal(${note['id']})" class="white-text">Color</a>
+<div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; right:5px;">
+    <a class="btn-flat small $color flat">
+      <i class="large material-icons">reorder</i>
+    </a>
+    <ul style="position:absolute;">
+      <li><a href="javascript:opedEditModal(${note['id']})" class="btn-floating red"><i class="material-icons">mode_edit</i></a></li>
+      <li><a href="javascript:openShareModal(${note['id']})" class="btn-floating yellow darken-1"><i class="material-icons">supervisor_account</i></a></li>
+      <li><a href="../actions/delete-note.php?note-id=${note['id']}" class="btn-floating green"><i class="material-icons">delete</i></a></li>
+      <li><a href="javascript:openColorModal(${note['id']})" class="btn-floating blue"><i class="material-icons">invert_colors</i></a></li>
+    </ul>
+  </div>
+
+<!--
+                                <li><a href="javascript:opedEditModal(${note['id']})" class="white-text">Edit</a></li>
+                                <li><a href="javascript:openShareModal(${note['id']})" class="white-text">Share</a></li>
+                                <li><a href="../actions/delete-note.php?note-id=${note['id']}" class="white-text">Archive</a></li>
+                                <li><a href="javascript:openColorModal(${note['id']})" class="white-text">Color</a></li>
+-->
                             </div>
                         </div>
                     </div>
