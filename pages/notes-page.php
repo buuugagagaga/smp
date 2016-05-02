@@ -124,27 +124,17 @@ EOL;
                     echo <<<EOL
                             </div>
                             <div class="card-action">
-
-
-
-<div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; right:5px;">
-    <a class="btn-flat btn-floating btn-large small $color">
-      <i class="large material-icons">reorder</i>
-    </a>
-    <ul >
-      <li><a href="javascript:opedEditModal(${note['id']})" class="btn-floating red"><i class="material-icons">mode_edit</i></a></li>
-      <li><a href="javascript:openShareModal(${note['id']})" class="btn-floating yellow darken-1"><i class="material-icons">supervisor_account</i></a></li>
-      <li><a href="../actions/delete-note.php?note-id=${note['id']}" class="btn-floating green"><i class="material-icons">delete</i></a></li>
-      <li><a href="javascript:openColorModal(${note['id']})" class="btn-floating blue"><i class="material-icons">invert_colors</i></a></li>
-    </ul>
-  </div>
-
-<!--
-                                <li><a href="javascript:opedEditModal(${note['id']})" class="white-text">Edit</a></li>
-                                <li><a href="javascript:openShareModal(${note['id']})" class="white-text">Share</a></li>
-                                <li><a href="../actions/delete-note.php?note-id=${note['id']}" class="white-text">Archive</a></li>
-                                <li><a href="javascript:openColorModal(${note['id']})" class="white-text">Color</a></li>
--->
+                            <div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; right:5px;">
+                                <a class="btn-flat btn-floating btn-large small $color">
+                                  <i class="large material-icons">reorder</i>
+                                </a>
+                                <ul >
+                                  <li><a href="javascript:opedEditModal(${note['id']})" class="btn-floating red"><i class="material-icons">mode_edit</i></a></li>
+                                  <li><a href="javascript:openShareModal(${note['id']})" class="btn-floating yellow darken-1"><i class="material-icons">supervisor_account</i></a></li>
+                                  <li><a href="../actions/delete-note.php?note-id=${note['id']}" class="btn-floating green"><i class="material-icons">delete</i></a></li>
+                                  <li><a href="javascript:openColorModal(${note['id']})" class="btn-floating blue"><i class="material-icons">invert_colors</i></a></li>
+                                </ul>
+                              </div>
                             </div>
                         </div>
                     </div>
@@ -156,8 +146,7 @@ EOL;
                 <a href="javascript:openNewNoteModal()" class="btn-floating btn-large red">
                   <i class="large material-icons">add</i>
                 </a>
-              </div>
-';
+              </div>';
             ?>
             <div id="editingModal" class="modal bottom-sheet">
                 <form method="post" id="${note['id']}" action="../actions/change-note.php">
@@ -243,8 +232,6 @@ EOL;
                     </div>
                 </form>
             </div>
-
-
         </div>
     </div>
 </div>

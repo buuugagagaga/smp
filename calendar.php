@@ -19,7 +19,7 @@ if ($month != "1") {
     $m = 12;
     $y = $year - 1;
 }
-echo "><<</a>";
+echo "<a href=\"calendar.php?month={$m}&year={$y}\"><<</a>";
 echo "${year} " . getdate(mktime(0, 0, 0, $month + 1, 0, $year))["month"];
 if ($month != "12") {
     $m = $month + 1;
@@ -30,7 +30,7 @@ if ($month != "12") {
 }
 echo "<a href=\"calendar.php?month={$m}&year={$y}\">>></a>";
 
-echo "<table style='border-radius: 10px; color: #ff3e41; background: #55ff30; text-align: center;'>";
+echo "<table style='border-radius: 10px; text-align: center;'>";
 echo '<tr><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th><th>Sunday</th></tr>';
 for ($i = 0, $month_day = 0; $i < 5; $i++) {
     echo "<tr>";
