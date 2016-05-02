@@ -5,7 +5,6 @@ require_once("../model/notes.php");
     if (isset($_POST['email'])) { 
         $email = $_POST['email']; 
         if ($email == '') {
-            
             unset($email);
         } 
     }
@@ -23,6 +22,11 @@ require_once("../model/notes.php");
     if (empty($email) or empty($password)) {
         exit (wrapMessage("Fields are not filled! <a href='../pages/signup.html'>Try again</a>", true));
     }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        exit (wrapMessage("Invalid email address! <a href='../pages/signup.html'>Try again</a>", true));
+    }
+
 
 $email = sanitizeString($email);
 $email = trim($email);

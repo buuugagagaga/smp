@@ -128,10 +128,10 @@ EOL;
 
 
 <div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; right:5px;">
-    <a class="btn-flat small $color flat">
+    <a class="btn-flat btn-floating btn-large small $color">
       <i class="large material-icons">reorder</i>
     </a>
-    <ul style="position:absolute;">
+    <ul >
       <li><a href="javascript:opedEditModal(${note['id']})" class="btn-floating red"><i class="material-icons">mode_edit</i></a></li>
       <li><a href="javascript:openShareModal(${note['id']})" class="btn-floating yellow darken-1"><i class="material-icons">supervisor_account</i></a></li>
       <li><a href="../actions/delete-note.php?note-id=${note['id']}" class="btn-floating green"><i class="material-icons">delete</i></a></li>
