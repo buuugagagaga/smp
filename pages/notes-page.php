@@ -46,6 +46,10 @@ require_once("../functions.php");
         $('#pick-color-note-id').val(noteId);
         $('#pickColorModal').openModal();
     }
+    function openDateModal() {
+        $('#pickDateModal').openModal();
+    }
+
 </script>
 
 <div class="navbar-fixed">
@@ -57,6 +61,7 @@ require_once("../functions.php");
                 <li><a href="shared-notes-page.php" class="white-text">Inbox</a></li>
             </ul>
             <ul class="right hide-on-med-and-down">
+                <li><a href="javascript:openDateModal()"><i class="material-icons">today</i></a></li>
                 <li><a href="../actions/logout.php">Log out</a></li>
             </ul>
             <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -71,18 +76,20 @@ require_once("../functions.php");
 
 </div>
 <div class="container" id="container">
-
     <?php
-
+        if(isset($_POST["date"]))
+            echo '<a href="notes-page.php" class="btn-large red">Show all</a>';
     ?>
-
-
-    <a class="datepicker btn-large red btn-flat white-text" value="123"><i class="material-icons left">today</i>SHOWING ALL NOTES</a>
 
     <div class="section">
         <div class="row"><!--Без этого div выстроятся в одну линию-->
             <?php
-            $notes = Notes::getAllUserNotes($_SESSION["UserId"]);
+            $allNotes = Notes::getAllUserNotes($_SESSION["UserId"]);
+
+            if(isset($_POST["date"]))
+                $notes = Notes::filterNotesByDate($allNotes, $_POST["date"]);
+            else $notes = $allNotes;
+
             $rowLeft = 12;
             echo '<div class="row">';
             foreach ($notes as $note) {
@@ -237,12 +244,24 @@ EOL;
                     </div>
                 </form>
             </div>
+            <div id="pickDateModal" class="modal" style="width: 90%; height:100%">
+                <form action="notes-page.php" method="post">
+                    <br>
+                    <div class="modal-content">
+                        <h4>Pick date</h4>
+                        <input class="datepicker" name="date" />
+                        <input type="submit" class="btn-large red btn-flat white-text submit" value="OK"/>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
     $('.datepicker').pickadate({
+        height: '100%',
         labelMonthNext: 'Next month',
         labelMonthPrev: 'Previous month',
         labelMonthSelect: 'Select a month',
@@ -253,7 +272,7 @@ EOL;
         weekdaysShort: [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ],
         weekdaysLetter: [ 'S', 'M', 'T', 'W', 'T', 'F', 'S' ],
         today: 'Today',
-        clear: 'Clear',
+        clear: '',
         close: 'Confirm'
     });
 </script>

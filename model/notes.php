@@ -79,6 +79,20 @@ class Notes
         return $database->selectCell("SELECT name FROM note_types WHERE id = {?}", array($noteTypeId));
     }
 
+    public static function filterNotesByDate($notes, $dateString){
+        global $database;
+        $result = array();
+        $date = DateTime::createFromFormat('j F, Y', $dateString);
+        foreach($notes as $note){
+            $noteDate = DateTime::createFromFormat("Y-m-d H:i:s", $note["date"]);
+        
+            if($date->format("Y-m-d") == $noteDate->format("Y-m-d"))
+                $result[] = $note;
+        }
+        return $result;
+    }
+
+
     public static function shareNote($noteId, $recipientId)
     {
         global $database;
