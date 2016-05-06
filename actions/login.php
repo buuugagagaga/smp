@@ -1,20 +1,13 @@
 <?php
 require_once("../functions.php");
 require_once("../model/users.php");
-require_once("../model/notes.php");
 
 if(!isset($_SESSION["UserId"])){
     if (isset($_POST['email'])) {
         $email = $_POST['email'];
-        if ($email == '') {
-            unset($email);
-        }
     }
     if (isset($_POST['password'])) {
         $password = $_POST['password'];
-        if ($password == '') {
-            unset($password);
-        }
     }
     if (empty($email) or empty($password))
     {

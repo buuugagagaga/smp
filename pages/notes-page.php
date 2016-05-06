@@ -77,16 +77,16 @@ require_once("../functions.php");
 </div>
 <div class="container" id="container">
     <?php
-        if(isset($_POST["date"]))
+        if(isset($_POST["date"]) && $_POST["date"]!="")
             echo '<a href="notes-page.php" class="btn-large red">Show all</a>';
     ?>
 
     <div class="section">
-        <div class="row"><!--Без этого div выстроятся в одну линию-->
+        <div class="row">
             <?php
             $allNotes = Notes::getAllUserNotes($_SESSION["UserId"]);
 
-            if(isset($_POST["date"]))
+            if(isset($_POST["date"]) && $_POST["date"]!="")
                 $notes = Notes::filterNotesByDate($allNotes, $_POST["date"]);
             else $notes = $allNotes;
 
@@ -249,7 +249,7 @@ EOL;
                     <br>
                     <div class="modal-content">
                         <h4>Pick date</h4>
-                        <input class="datepicker" name="date" />
+                        <input class="datepicker" name="date" required/>
                         <input type="submit" class="btn-large red btn-flat white-text submit" value="OK"/>
                     </div>
                 </form>

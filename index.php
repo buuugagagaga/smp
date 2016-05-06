@@ -1,5 +1,6 @@
 <?
 require_once("functions.php");
+require_once("model/notes.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +39,9 @@ require_once("functions.php");
         <h1 class="header center orange-text">Welcome, my friend!</h1>
         <h1 class="header center teal-text">I'm <b><?php echo $appname;?></b>!</h1>
       <div class="row center">
-          <h5 class="header col s12 light">A new Google Keep <strike>clone</strike> analog made for free usage!</h5>
+        <h5 class="header col s12 light">A new Google Keep <strike>clone</strike> analog made for free usage!</h5>
+        <h5 class="header col s12 light"><?php echo Notes::getNotesCount() ?> notes are created using our service!!!</h5>
+
       </div>
       <div class="row center">
         <a href="actions/get-started.php" id="download-button" class="btn-large waves-effect waves-light orange">Get Started</a>

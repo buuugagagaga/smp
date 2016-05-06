@@ -50,6 +50,11 @@ class Notes
         );
     }
 
+    public static function getNotesCount(){
+        global $database;
+        return $database->selectCell("SELECT COUNT(*) FROM notes");
+    }
+
     public static function getRandomNoteTypeId()
     {
         global $database;
